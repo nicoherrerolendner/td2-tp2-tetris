@@ -574,7 +574,7 @@ void testStrDuplicate(void) {
     free(copia);
 
     printf("strDuplicate: OK\n");
-    }
+}
 
 void testStrCompare(void) {
 
@@ -591,7 +591,7 @@ void testStrCompare(void) {
     assert(strCompare("a", "") == -1);
 
     printf("strCompare: OK\n");
-    }
+}
 
 void testStrConcatenate(void) {
 
@@ -623,7 +623,7 @@ void testStrConcatenate(void) {
 
     printf("strConcatenate: OK\n");
     printf("Tests de strings completados.\n");
-    }
+}
 
 void testTablero(void) {
     // Verificamos el estado inicial del tablero.
@@ -659,7 +659,7 @@ void testTablero(void) {
     gameBoardDelete(NULL);
 
     printf("Creacion y eliminacion del tablero: OK\n");
-    }
+}
 
 void testCola(void) {
     // Insertamos cinco piezas y comprobamos el orden FIFO.
@@ -710,7 +710,7 @@ void testCola(void) {
     gameBoardDelete(tableroCola);
 
     printf("Cola de piezas: OK\n");
-    }
+}
 
 void testParticulas(void) {
     GameBoard* tableroParticulas = gameBoardNew();
@@ -744,7 +744,7 @@ void testParticulas(void) {
     gameBoardDelete(tableroParticulas);
 
     printf("Lista de particulas: OK\n");
-    }
+}
 
 void testLineas(void) {
     // Caso 1: completar y eliminar la ultima fila.
@@ -853,6 +853,7 @@ void testLineas(void) {
 
     printf("Eliminacion de filas completas: OK\n");
 }
+
 void correrTests(void) {
     testStrDuplicate();
     testStrCompare();
