@@ -541,9 +541,9 @@ int inicializar() {
     return 1;
 }
 
-// ========= TESTS (COMPLETAR) =========
+// ========= TESTS =========
 
-void correrTests() {
+void testStrDuplicate(void) {
     // strDuplicate: vacio, un caracter y distintos caracteres.
     char* vacio = strDuplicate("");
     char* letra = strDuplicate("x");
@@ -574,6 +574,9 @@ void correrTests() {
     free(copia);
 
     printf("strDuplicate: OK\n");
+    }
+
+void testStrCompare(void) {
 
     // strCompare: igualdad, diferencias y prefijos.
     assert(strCompare("", "") == 0);
@@ -588,6 +591,9 @@ void correrTests() {
     assert(strCompare("a", "") == -1);
 
     printf("strCompare: OK\n");
+    }
+
+void testStrConcatenate(void) {
 
     // strConcatenate: argumentos dinamicos y distintos.
     char* primero = strDuplicate("");
@@ -617,7 +623,10 @@ void correrTests() {
 
     printf("strConcatenate: OK\n");
     printf("Tests de strings completados.\n");
-        // Verificamos el estado inicial del tablero.
+    }
+
+void testTablero(void) {
+    // Verificamos el estado inicial del tablero.
     GameBoard* tablero = gameBoardNew();
     assert(tablero != NULL);
 
@@ -650,7 +659,10 @@ void correrTests() {
     gameBoardDelete(NULL);
 
     printf("Creacion y eliminacion del tablero: OK\n");
-        // Insertamos cinco piezas y comprobamos el orden FIFO.
+    }
+
+void testCola(void) {
+    // Insertamos cinco piezas y comprobamos el orden FIFO.
     GameBoard* tableroCola = gameBoardNew();
     assert(tableroCola != NULL);
 
@@ -671,7 +683,8 @@ void correrTests() {
 
     // La sexta extraccion falla y deja el valor de salida intacto.
     tipoExtraido = 99;
-    assert(gameBoardDequeuePiece(tableroCola, &tipoExtraido) == 0);
+    int pudoExtraer = gameBoardDequeuePiece(tableroCola, &tipoExtraido);
+    assert(pudoExtraer == 0);
     assert(tipoExtraido == 99);
     assert(tableroCola->queue_head == NULL);
     assert(tableroCola->queue_tail == NULL);
@@ -681,7 +694,8 @@ void correrTests() {
 
     assert(tableroCola->queue_head != NULL);
     assert(tableroCola->queue_head == tableroCola->queue_tail);
-    assert(gameBoardDequeuePiece(tableroCola, &tipoExtraido) == 1);
+    pudoExtraer = gameBoardDequeuePiece(tableroCola, &tipoExtraido);
+    assert(pudoExtraer == 1);
     assert(tipoExtraido == 6);
     assert(tableroCola->queue_head == NULL);
     assert(tableroCola->queue_tail == NULL);
@@ -696,7 +710,10 @@ void correrTests() {
     gameBoardDelete(tableroCola);
 
     printf("Cola de piezas: OK\n");
-        GameBoard* tableroParticulas = gameBoardNew();
+    }
+
+void testParticulas(void) {
+    GameBoard* tableroParticulas = gameBoardNew();
     assert(tableroParticulas != NULL);
 
     // Primera insercion en una lista vacia.
@@ -727,7 +744,10 @@ void correrTests() {
     gameBoardDelete(tableroParticulas);
 
     printf("Lista de particulas: OK\n");
-        // Caso 1: completar y eliminar la ultima fila.
+    }
+
+void testLineas(void) {
+    // Caso 1: completar y eliminar la ultima fila.
     GameBoard* tableroLineas = gameBoardNew();
     assert(tableroLineas != NULL);
 
@@ -742,7 +762,8 @@ void correrTests() {
         ultima->cells[j] = 1;
     }
 
-    assert(gameBoardCheckAndClearLines(tableroLineas) == 1);
+    int eliminadas = gameBoardCheckAndClearLines(tableroLineas);
+    assert(eliminadas == 1);
 
     // La fila nueva esta arriba de la antigua cabeza.
     assert(tableroLineas->first_row != cabezaOriginal);
@@ -788,7 +809,8 @@ void correrTests() {
         segundaFila->cells[j] = 3;
     }
 
-    assert(gameBoardCheckAndClearLines(tableroLineas) == 2);
+    eliminadas = gameBoardCheckAndClearLines(tableroLineas);
+    assert(eliminadas == 2);
 
     // Hay dos filas nuevas vacias antes de la tercera original.
     assert(tableroLineas->first_row->next->next == terceraFila);
@@ -824,11 +846,21 @@ void correrTests() {
     assert(cantidadParticulas == 2 * GRID_COLS);
 
     // Sin filas completas, no debe eliminar ninguna.
-    assert(gameBoardCheckAndClearLines(tableroLineas) == 0);
+    eliminadas = gameBoardCheckAndClearLines(tableroLineas);
+    assert(eliminadas == 0);
 
     gameBoardDelete(tableroLineas);
 
     printf("Eliminacion de filas completas: OK\n");
+}
+void correrTests(void) {
+    testStrDuplicate();
+    testStrCompare();
+    testStrConcatenate();
+    testTablero();
+    testCola();
+    testParticulas();
+    testLineas();
 }
 
 // Compara contra "--test" sin depender de string.h ni del Ejercicio 1.
